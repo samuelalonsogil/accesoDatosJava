@@ -19,8 +19,8 @@ public class Controller {
 		return cuentaDAO.cargarSucursales();
 	}
 	
-	public int newAccount(Cuenta cuenta, CuentaCliente cuentaCliente) {
-		return cuentaDAO.nuevaCuenta(cuenta, cuentaCliente);
+	public int newAccount(Cuenta cuenta, Cliente cliente) {
+		return cuentaDAO.nuevaCuenta(cuenta, cliente);
 	}
 
 }

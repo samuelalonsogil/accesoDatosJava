@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -117,7 +118,10 @@ public class Form01 extends JFrame {
 					CuentaCliente cuentaCliente = new CuentaCliente();
 					Controller controller = new Controller();
 					
-					System.out.println(clienteCombo);
+					if(textFieldNumeroCuenta.getText().isEmpty() || textFieldSaldo.getText().isEmpty() || textFieldFecha01.getText().isEmpty() ) {
+						JOptionPane.showMessageDialog(null, "Completa todos los campos");
+					}else {
+					
 					cuenta.setCodCuenta( Integer.parseInt(textFieldNumeroCuenta.getText() ) );
 					cuenta.setCodSucursal( boxSucursales.getSelectedIndex() + 1 );
 					cuenta.setFechaCreacion( ConvertirFechas.convertirJavaDateASqlDate( ConvertirFechas.convertirStringDate( textFieldFecha01.getText() ) ) ) ;
@@ -126,10 +130,12 @@ public class Form01 extends JFrame {
 					cuentaCliente.setDni( clienteCombo.getDni() );
 					cuentaCliente.setCodCuenta( cuenta.getCodCuenta() );
 					
-					controller.newAccount(cuenta, cuentaCliente);
-					
+					controller.newAccount(cuenta, clienteCombo);
+					JOptionPane.showMessageDialog(null, "Inserción correcta");
+					}
 				}
 			});
+			
 			btnNew.setBounds(679, 18, 107, 23);
 			panel.add(btnNew);
 			

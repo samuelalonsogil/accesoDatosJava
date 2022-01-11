@@ -18,7 +18,7 @@ public class CuentaDAO {
 	public ArrayList<Cliente> cargarClientes(){
 		
 		MyConnection myConnection = new MyConnection();
-		String query = "SELECT clNombre, clApellidos FROM Clientes ORDER BY clNombre";
+		String query = "SELECT clNombre, clApellidos, clDni, clTelefono FROM Clientes ORDER BY clNombre";
 		
 		ArrayList<Cliente> clientes= new ArrayList<Cliente>();
 		
@@ -30,7 +30,8 @@ public class CuentaDAO {
 				Cliente cliente = new Cliente();
 				cliente.setNombre(rs.getString("clNombre") );
 				cliente.setApellidos(rs.getString( "clApellidos" ) );
-				
+				cliente.setDni(rs.getString("clDni"));
+				cliente.setTelefono(rs.getInt("clTelefono"));
 				clientes.add(cliente);
 			}
 		}catch(SQLException sqle) {
@@ -73,7 +74,7 @@ public class CuentaDAO {
 		
 		MyConnection myConnection = new MyConnection();
 		
-		String query01 = "INSERT INTO Cuentas VALUES (?, ?, ?, ?, ?)";
+		String query01 = "INSERT INTO Cuentas VALUES (?, ?, ?, ?)";
 		String query02 = "INSERT INTO CuentasClientes VALUES (?, ?)";
 		int rows = 0;
 		
