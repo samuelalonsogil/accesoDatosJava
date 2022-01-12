@@ -20,7 +20,6 @@ public class ModeloComboBoxClientes extends JComboBox<Cliente>{
 	public void cargarComboBox() {
 		clientes = controller.cargarClientes();
 		for(Cliente cliente : clientes) {
-			System.out.println(cliente);
 			this.addItem(cliente);
 		}
 	}

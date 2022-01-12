@@ -76,11 +76,13 @@ public class CuentaDAO {
 		
 		String query01 = "INSERT INTO Cuentas VALUES (?, ?, ?, ?)";
 		String query02 = "INSERT INTO CuentasClientes VALUES (?, ?)";
+		String query03 = "UPDATE Sucursales SET suActivo = suActivo + (?) WHERE suCiudad = (?)";
 		int rows = 0;
 		
 		try {
 			PreparedStatement ps01 = myConnection.getConnection().prepareStatement(query01);
 			PreparedStatement ps02 = myConnection.getConnection().prepareStatement(query02);
+			PreparedStatement ps03 = myConnection.getConnection().prepareStatement(query03);
 			
 			myConnection.getConnection().setAutoCommit(false);
 			
@@ -96,14 +98,40 @@ public class CuentaDAO {
 			
 			rows = ps02.executeUpdate();
 			
+			ps03.setInt(1, cuenta.getSaldo() );
+			ps03.setString(2, codigoCiudad(cuenta.getCodSucursal()) );
+			
+			rows = ps03.executeUpdate();
+			
 			myConnection.getConnection().commit();
 			myConnection.getConnection().setAutoCommit(true);
+			
 			
 		}catch(SQLException sqle) {
 			sqle.printStackTrace();
 		}
 		
 		return rows;
+	}
+	
+	public String codigoCiudad(int code) {
+		String ciudad;
+		
+		if(code == 4) {
+			ciudad ="Vigo";
+			return ciudad;
+		}
+		else if (code == 3) {
+			ciudad = "Porriño";
+			return ciudad;
+		}
+		else if (code == 2) {
+			ciudad = "Redondela";
+			return ciudad;
+		}
+		else 
+			ciudad = "Nigrán";
+			return ciudad;
 	}
 	
 	public ArrayList<ListadoCuentas> cargarListadoCuentas(){

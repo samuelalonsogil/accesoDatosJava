@@ -18,6 +18,7 @@ import modeloDao.CuentaDAO;
 import modeloVO.Cliente;
 import modeloVO.Cuenta;
 import modeloVO.CuentaCliente;
+import modeloVO.Sucursal;
 import modelosViews.ModeloComboBoxClientes;
 import modelosViews.ModeloComboBoxSucursales;
 import java.awt.event.ActionListener;
@@ -131,6 +132,7 @@ public class Form01 extends JFrame {
 					cuentaCliente.setCodCuenta( cuenta.getCodCuenta() );
 					
 					controller.newAccount(cuenta, clienteCombo);
+					
 					JOptionPane.showMessageDialog(null, "Inserción correcta");
 					}
 				}
