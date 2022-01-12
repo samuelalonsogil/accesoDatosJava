@@ -158,7 +158,9 @@ public class Form01 extends JFrame {
 					}else {
 					
 					cuenta.setCodCuenta( Integer.parseInt( textFieldNumeroCuenta.getText() ) );
-					
+					cuenta.setCodSucursal( boxSucursales.getSelectedIndex() + 1 );
+					cuenta.setFechaCreacion( ConvertirFechas.convertirJavaDateASqlDate( ConvertirFechas.convertirStringDate( textFieldFecha01.getText() ) ) ) ;
+					cuenta.setSaldo( Integer.parseInt( textFieldSaldo.getText() ) );
 					
 					cuentaCliente.setDni( clienteCombo.getDni() );
 					cuentaCliente.setCodCuenta( cuenta.getCodCuenta() );
@@ -189,6 +191,8 @@ public class Form01 extends JFrame {
 					}else {
 					
 					cuenta.setCodCuenta( Integer.parseInt( textFieldNumeroCuenta.getText() ) );
+					cuenta.setCodSucursal(boxSucursales.getSelectedIndex() + 1 );
+					
 					controller.deleteAccount(cuenta, clienteCombo);
 					}
 				}

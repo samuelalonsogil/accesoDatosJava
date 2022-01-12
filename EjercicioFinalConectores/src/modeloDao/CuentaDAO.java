@@ -46,7 +46,7 @@ public class CuentaDAO {
 	public ArrayList<Sucursal> cargarSucursales(){
 			
 			MyConnection myConnection = new MyConnection();
-			String query = "SELECT suCiudad FROM Sucursales ORDER BY suCiudad";
+			String query = "SELECT suCiudad FROM Sucursales ORDER BY suCodSucursal";
 		
 		ArrayList<Sucursal> sucursales= new ArrayList<Sucursal>();
 		
@@ -117,7 +117,7 @@ public class CuentaDAO {
 	public String codigoCiudad(int code) {
 		String ciudad;
 		
-		if(code == 4) {
+		if(code == 1) {
 			ciudad ="Vigo";
 			return ciudad;
 		}
@@ -139,8 +139,8 @@ public class CuentaDAO {
 		MyConnection myConnection = new MyConnection();
 		
 		String query01 = "UPDATE Cuentas SET cuCodSucursal = (?), cuFechaCreacion = (?), cuSaldo = (?) WHERE cuCodCuenta = (?)";
-		String query02 = "UPDATE CuentasClientes SET ccDni = (?) WHERE ccCodCuenta = (?)";
-		String query03 = "UPDATE Sucursales SET suActivo = suActivo + ( (?) - (SELECT cuSaldo FROM Cuentas WHERE cuCodCuenta = (?))) WHERE suCiudad = (?)";
+		String query02 = "UPDATE CuentasClientes SET ccDni = (?) WHERE ccCodCuenta = (?) && ccDni = (?)";
+		String query03 = "UPDATE Sucursales SET suActivo = suActivo + ( (?) - (SELECT cuSaldo FROM Cuentas WHERE cuCodCuenta = (?) )) WHERE suCiudad = (?)";
 		int rows = 0;
 		
 		try {
@@ -154,23 +154,21 @@ public class CuentaDAO {
 			ps01.setDate(2,(java.sql.Date) cuenta.getFechaCreacion() );
 			ps01.setInt(3, cuenta.getSaldo() );
 			ps01.setInt(4, cuenta.getCodCuenta() );
-			System.out.println(ps01);
+			
 			rows = ps01.executeUpdate();
-			System.out.println(ps01);
 			
 			ps02.setString(1, cliente.getDni());
 			ps02.setInt(2, cuenta.getCodCuenta());
-			System.out.println(ps02);
+			ps02.setString(3, cliente.getDni());
+			
 			rows = ps02.executeUpdate();
-			System.out.println(ps02);
 			
 			ps03.setInt(1, cuenta.getSaldo() );
 			ps03.setInt(2, cuenta.getCodCuenta() );
 			ps03.setString(3, codigoCiudad( cuenta.getCodSucursal() ) );
 			
-			System.out.println(ps03.toString());
 			rows = ps03.executeUpdate();
-			System.out.println(ps03);
+			
 			
 			myConnection.getConnection().commit();
 			myConnection.getConnection().setAutoCommit(true);
@@ -189,7 +187,8 @@ public class CuentaDAO {
 		
 		String query01 = "DELETE FROM Cuentas WHERE cuCodCuenta = (?)";
 		String query02 = "DELETE FROM CuentasClientes WHERE ccCodCuenta = (?)";
-		String query03 = "UPDATE Sucursales SET suActivo = suActivo + ( (?) - (SELECT cuSaldo FROM Cuentas WHERE cuCodCuenta = (?))) WHERE suCiudad = (?)";
+		String query03 = "UPDATE Sucursales SET suActivo = suActivo - ( ( SELECT cuSaldo FROM Cuentas WHERE cuCodCuenta = (?) ) ) WHERE suCodSucursal = (SELECT cuCodSucursal FROM Cuentas WHERE cuCodCuenta = (?))";
+		
 		int rows = 0;
 		
 		try {
@@ -199,9 +198,9 @@ public class CuentaDAO {
 			
 			myConnection.getConnection().setAutoCommit(false);
 			
-			ps03.setInt(1, cuenta.getSaldo() );
-			ps03.setInt(2, cuenta.getCodCuenta() );
-			ps03.setString(3, codigoCiudad(cuenta.getCodSucursal()) );
+			
+			ps03.setInt(1, cuenta.getCodCuenta() );
+			ps03.setInt(2, cuenta.getCodCuenta() ) ;
 			
 			rows = ps03.executeUpdate();
 			
@@ -257,8 +256,4 @@ public class CuentaDAO {
 		return listadoCuentas;
 	}
 	
-	
-	public static void main(String[] args) {
-		CuentaDAO cuentaDAO = new CuentaDAO();
-	}
 }
