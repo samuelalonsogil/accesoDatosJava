@@ -121,11 +121,11 @@ public class CuentaDAO {
 			ciudad ="Vigo";
 			return ciudad;
 		}
-		else if (code == 3) {
+		else if (code == 2) {
 			ciudad = "Porriño";
 			return ciudad;
 		}
-		else if (code == 2) {
+		else if (code == 3) {
 			ciudad = "Redondela";
 			return ciudad;
 		}
@@ -134,12 +134,13 @@ public class CuentaDAO {
 			return ciudad;
 	}
 	
+	/*modify account*/
 	public int actualizar(Cuenta cuenta, Cliente cliente) {
 		MyConnection myConnection = new MyConnection();
 		
 		String query01 = "UPDATE Cuentas SET cuCodSucursal = (?), cuFechaCreacion = (?), cuSaldo = (?) WHERE cuCodCuenta = (?)";
-		String query02 = "UPDATE CuentasClientes SET ccDni = (?) WHERE cuCodCuenta = (?)";
-		String query03 = "UPDATE Sucursales SET suActivo = suActivo + ( (?) - (SELECT cuSaldo FROM Cuentas WHERE cuCodCuenta = (?))) WHERE suCiudad = (?);";
+		String query02 = "UPDATE CuentasClientes SET ccDni = (?) WHERE ccCodCuenta = (?)";
+		String query03 = "UPDATE Sucursales SET suActivo = suActivo + ( (?) - (SELECT cuSaldo FROM Cuentas WHERE cuCodCuenta = (?))) WHERE suCiudad = (?)";
 		int rows = 0;
 		
 		try {
@@ -153,19 +154,23 @@ public class CuentaDAO {
 			ps01.setDate(2,(java.sql.Date) cuenta.getFechaCreacion() );
 			ps01.setInt(3, cuenta.getSaldo() );
 			ps01.setInt(4, cuenta.getCodCuenta() );
-			
+			System.out.println(ps01);
 			rows = ps01.executeUpdate();
+			System.out.println(ps01);
 			
 			ps02.setString(1, cliente.getDni());
 			ps02.setInt(2, cuenta.getCodCuenta());
-			
+			System.out.println(ps02);
 			rows = ps02.executeUpdate();
+			System.out.println(ps02);
 			
 			ps03.setInt(1, cuenta.getSaldo() );
 			ps03.setInt(2, cuenta.getCodCuenta() );
 			ps03.setString(3, codigoCiudad( cuenta.getCodSucursal() ) );
 			
+			System.out.println(ps03.toString());
 			rows = ps03.executeUpdate();
+			System.out.println(ps03);
 			
 			myConnection.getConnection().commit();
 			myConnection.getConnection().setAutoCommit(true);
@@ -178,14 +183,58 @@ public class CuentaDAO {
 		return rows;
 	}
 	
-	public ArrayList<ListadoCuentas> cargarListadoCuentas(){
+	/*delete account*/
+	public int deleteAccount(Cuenta cuenta, Cliente cliente) {
+		MyConnection myConnection = new MyConnection();
+		
+		String query01 = "DELETE FROM Cuentas WHERE cuCodCuenta = (?)";
+		String query02 = "DELETE FROM CuentasClientes WHERE ccCodCuenta = (?)";
+		String query03 = "UPDATE Sucursales SET suActivo = suActivo + ( (?) - (SELECT cuSaldo FROM Cuentas WHERE cuCodCuenta = (?))) WHERE suCiudad = (?)";
+		int rows = 0;
+		
+		try {
+			PreparedStatement ps01 = myConnection.getConnection().prepareStatement(query01);
+			PreparedStatement ps02 = myConnection.getConnection().prepareStatement(query02);
+			PreparedStatement ps03 = myConnection.getConnection().prepareStatement(query03);
+			
+			myConnection.getConnection().setAutoCommit(false);
+			
+			ps03.setInt(1, cuenta.getSaldo() );
+			ps03.setInt(2, cuenta.getCodCuenta() );
+			ps03.setString(3, codigoCiudad(cuenta.getCodSucursal()) );
+			
+			rows = ps03.executeUpdate();
+			
+			ps02.setInt(1, cuenta.getCodCuenta());
+			
+			rows = ps02.executeUpdate();
+			
+			ps01.setInt(1, cuenta.getCodCuenta() );
+			
+			rows = ps01.executeUpdate();
+			
+			myConnection.getConnection().commit();
+			myConnection.getConnection().setAutoCommit(true);
+			
+			
+		}catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		
+		return rows;
+	}
+	
+	public ArrayList<ListadoCuentas> cargarListadoCuentas(Cliente cliente){
 		
 		MyConnection myConnection = new MyConnection();
 		ListadoCuentas listado= new ListadoCuentas();
 		ArrayList<ListadoCuentas> listadoCuentas = new ArrayList<ListadoCuentas>();
 		
-		String query = "SELECT cuCodCuenta, suCodSucursal, suCiudad, suActivo"
-				+ " FROM Cuentas JOIN Sucursales ON suCodSucursal = cuCodSucursal";
+		String query = "SELECT clNombre, clApellidos, cuCodCuenta, cuCodSucursal, suCiudad, cuSaldo\r\n"
+				+ "FROM Cuentas c\r\n"
+				+ "JOIN Sucursales s on c.cuCodSucursal = s.suCodSucursal\r\n"
+				+ "JOIN Cuentasclientes ccl on ccl.ccCodCuenta = c.cuCodCuenta\r\n"
+				+ "JOIN Clientes cl on cl.clDni = ccl.ccDni";
 		
 		try {
 			PreparedStatement ps = myConnection.getConnection().prepareStatement(query);

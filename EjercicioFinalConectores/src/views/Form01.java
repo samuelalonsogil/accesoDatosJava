@@ -141,6 +141,7 @@ public class Form01 extends JFrame {
 			btnNew.setBounds(679, 18, 107, 23);
 			panel.add(btnNew);
 			
+			/*modify*/
 			JButton btnActualizar = new JButton("Actualizar");
 			btnActualizar.addActionListener(new ActionListener() {
 				
@@ -156,16 +157,15 @@ public class Form01 extends JFrame {
 						JOptionPane.showMessageDialog(null, "Completa todos los campos");
 					}else {
 					
-					cuenta.setCodSucursal( boxSucursales.getSelectedIndex() + 1 );
-					cuenta.setFechaCreacion( ConvertirFechas.convertirJavaDateASqlDate( ConvertirFechas.convertirStringDate( textFieldFecha01.getText() ) ) ) ;
-					cuenta.setSaldo( Integer.parseInt( textFieldSaldo.getText() ) );
+					cuenta.setCodCuenta( Integer.parseInt( textFieldNumeroCuenta.getText() ) );
+					
 					
 					cuentaCliente.setDni( clienteCombo.getDni() );
 					cuentaCliente.setCodCuenta( cuenta.getCodCuenta() );
 					
-					controller.newAccount(cuenta, clienteCombo);
+					controller.modify(cuenta, clienteCombo);
 					
-					JOptionPane.showMessageDialog(null, "Inserción correcta");
+					
 					}
 				}
 			});
@@ -173,7 +173,27 @@ public class Form01 extends JFrame {
 			btnActualizar.setBounds(679, 57, 107, 23);
 			panel.add(btnActualizar);
 			
+			/*delete*/
 			JButton btnEliminar = new JButton("Eliminar");
+			btnEliminar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					Cliente clienteCombo = (Cliente) boxClientes.getSelectedItem();
+					Cuenta cuenta = new Cuenta();
+					CuentaCliente cuentaCliente = new CuentaCliente();
+					Controller controller = new Controller();
+					
+					if(textFieldNumeroCuenta.getText().isEmpty() ) {
+						JOptionPane.showMessageDialog(null, "Introduce el número de cuenta");
+					}else {
+					
+					cuenta.setCodCuenta( Integer.parseInt( textFieldNumeroCuenta.getText() ) );
+					controller.deleteAccount(cuenta, clienteCombo);
+					}
+				}
+			});
+
 			btnEliminar.setBounds(679, 93, 107, 23);
 			panel.add(btnEliminar);
 			
