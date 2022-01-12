@@ -20,6 +20,10 @@ public class Controller {
 		return cuentaDAO.cargarSucursales();
 	}
 	
+	public ArrayList<ListadoCuentas> cargarCuentas(){
+		return cuentaDAO.cargarCuentas();
+	}
+	
 	public int newAccount(Cuenta cuenta, Cliente cliente) {
 		return cuentaDAO.nuevaCuenta(cuenta, cliente);
 	}

@@ -23,7 +23,7 @@ import java.awt.Font;
 public class Form02 extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-
+	
 	/**
 	 * Launch the application.
 	 */

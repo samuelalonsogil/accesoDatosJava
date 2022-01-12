@@ -15,6 +15,34 @@ import modeloVO.Sucursal;
 public class CuentaDAO {
 	
 	
+	public ArrayList<ListadoCuentas> cargarCuentas(){
+		
+		MyConnection myConnection = new MyConnection();
+		String query = "SELECT cuCodCuenta, cuCodSucursal, suCiudad, cuSaldo FROM cuentas JOIN sucursales s on cuentas.cuCodSucursal = s.suCodSucursal";
+		
+		ArrayList<ListadoCuentas> cuentas = new ArrayList<ListadoCuentas>();
+		
+		try {
+			PreparedStatement ps = myConnection.getConnection().prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			while( rs.next() ) {
+				ListadoCuentas listadoCuentas = new ListadoCuentas ();
+				listadoCuentas.setCodCuenta(rs.getInt("cuCodCuenta"));
+				listadoCuentas.setCodSucursal(rs.getInt("cuCodSucursal"));
+				listadoCuentas.setCiudad(rs.getNString("suCiudad"));
+				listadoCuentas.setActivo(rs.getDouble("cuSaldo"));
+				cuentas.add(listadoCuentas);
+			}
+		}catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+		
+		myConnection.disconnect();
+		
+		return cuentas;
+	}
+	
 	public ArrayList<Cliente> cargarClientes(){
 		
 		MyConnection myConnection = new MyConnection();
