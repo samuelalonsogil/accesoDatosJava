@@ -18,10 +18,10 @@ gestor de persistencia -->
 		<!-- mantiene los parámetros de conexión con la base de datos -->
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/UD03Hibernate
 			?useSSL=false&amp;serverTimezone=UTC"/>
-			<property name="javax.persistence.jdbc.user" value="root"/>
-			<property name="javax.persistence.jdbc.password" value="admin"/>
+			<property name="javax.persistence.jdbc.user" value="samu"/>
+			<property name="javax.persistence.jdbc.password" value="staraptor2"/>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
-			<property name="javax.persistence.schema-generation.database.action" value="validate"/>
+			<property name="javax.persistence.schema-generation.database.action" value="create"/>
 			
 		</properties>
 	</persistence-unit>

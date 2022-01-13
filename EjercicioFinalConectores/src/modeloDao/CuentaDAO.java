@@ -251,7 +251,7 @@ public class CuentaDAO {
 		return rows;
 	}
 	
-	public ArrayList<ListadoCuentas> cargarListadoCuentas(Cliente cliente){
+	/*public ArrayList<ListadoCuentas> cargarListadoCuentas(Cliente cliente){
 		
 		MyConnection myConnection = new MyConnection();
 		ListadoCuentas listado= new ListadoCuentas();
@@ -282,6 +282,6 @@ public class CuentaDAO {
 		
 		myConnection.disconnect();
 		return listadoCuentas;
-	}
+	}*/
 	
 }

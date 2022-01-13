@@ -4,44 +4,59 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@SuppressWarnings("serial")
 @Entity
-@Table(name = "Personas", schema = "UD03Hibernate", indexes = { @Index (name = "nbIndice", columnList = "apellidos", unique = true) } )
+@Table(name = "Personas", schema = "UD03Hibernate", indexes = { @Index (name = "nbIndice", columnList = "peApellidos", unique = true) } )
 @SequenceGenerator(name = "PersonaSeq", sequenceName = "id_Persona", initialValue = 1, allocationSize = 10)
 @TableGenerator(name = "PersonaTable", initialValue = 1, pkColumnName = "Entity", pkColumnValue = "ID", allocationSize = 10, table = "Entity Generator")
 public class Persona implements Serializable{
 	
 	@Id
-	//@GeneratedValue(strategy= GenerationType.IDENTITY)
+	@Column(name = "peIdPersona")
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	//@GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "PersonaSeq")
-	@GeneratedValue(strategy= GenerationType.TABLE, generator = "PersonaTable")
+	//@GeneratedValue(strategy= GenerationType.TABLE, generator = "PersonaTable")
 	private int idPersona;
 	
-	@Column(name = "nombre", length = 15, nullable= false)
+	@Column(name = "peNombre", length = 15, nullable= false)
 	private String nombre;
 	
-	@Column(name = "apellidos", length = 45, nullable= false ,unique = true)
+	@Column(name = "peApellidos", length = 45, nullable= false ,unique = true)
 	String apellidos;
 	
-	@Column(name = "salario", scale = 2)
+	@Column(name = "peSalario", scale = 2)
 	private double salario;
 	
-	@Column(name = "fechaNacimiento", updatable = false)
+	
+	@Column(name = "peFechaNacimiento", updatable = false)
 	@Temporal(TemporalType.DATE)
 	private Calendar fechaNacimiento;
 	
+	@Column(name="peEstadoCivil", nullable = false, length = 12)
+	@Enumerated(value = EnumType.STRING)
 	private Estado estado;
+	
+	@Column(name = "peFoto")
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	private byte[] foto;
 	
 	public enum Estado{
 		Casado, Divorciado, Soltero, Viudo

@@ -36,8 +36,8 @@ public class Controller {
 		return cuentaDAO.deleteAccount(cuenta, cliente);
 	}
 	
-	public ArrayList<ListadoCuentas> listarCuentas(Cliente cliente){
+	/*public ArrayList<ListadoCuentas> listarCuentas(Cliente cliente){
 		return cuentaDAO.cargarListadoCuentas(cliente);
-	}
+	}*/
 
 }
