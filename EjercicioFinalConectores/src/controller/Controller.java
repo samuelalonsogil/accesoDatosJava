@@ -20,8 +20,8 @@ public class Controller {
 		return cuentaDAO.cargarSucursales();
 	}
 	
-	public ArrayList<ListadoCuentas> cargarCuentas(){
-		return cuentaDAO.cargarCuentas();
+	public ArrayList<ListadoCuentas> cargarCuentas(String nombre, String apellidos){
+		return cuentaDAO.cargarCuentas(nombre, apellidos);
 	}
 	
 	public int newAccount(Cuenta cuenta, Cliente cliente) {

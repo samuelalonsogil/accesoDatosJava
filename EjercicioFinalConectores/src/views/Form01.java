@@ -31,6 +31,7 @@ public class Form01 extends JFrame {
 	private JTextField textFieldFecha01;
 	private JTextField textFieldSaldo;
 	public ConvertirFechas conversor = new ConvertirFechas();
+	Form02 form02 = new Form02();
 	
 	/*Launch the application.*/
 	public static void main(String[] args) {
@@ -202,6 +203,14 @@ public class Form01 extends JFrame {
 			panel.add(btnEliminar);
 			
 			JButton btnListado = new JButton("Listado");
+			btnListado.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					form02.setVisible(true);
+				}
+			});
+			
 			btnListado.setBounds(679, 128, 107, 23);
 			panel.add(btnListado);
 		}

@@ -12,7 +12,6 @@ import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -25,19 +24,23 @@ import javax.swing.table.DefaultTableModel;
 
 import controller.Controller;
 import modeloVO.Cliente;
+import modeloVO.Cuenta;
 import modeloVO.ListadoCuentas;
 import modelosViews.ModeloComboBoxClientes;
+import java.awt.Font;
+import java.awt.SystemColor;
 
-public class Form02_b extends JDialog {
+public class Form02 extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private JScrollPane scrollPane;
-	private ModeloComboBoxClientes comboBoxClientes;
+	private ModeloComboBoxClientes boxClientes;
 
 	private DefaultTableModel dm;
 	private DefaultTableCellRenderer alinearCentro, alinearDerecha, alinearIzquierda;
-
+	ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+	
 	Controller controller = new Controller();
 
 	private void asignarColumnas() {
@@ -59,14 +62,12 @@ public class Form02_b extends JDialog {
 		alinearIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
 	}
 
-	/**
-	 * Launch the application.
-	 */
+	/*Launch the application.*/
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Form02_b frame = new Form02_b();
+					Form02 frame = new Form02();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -75,10 +76,8 @@ public class Form02_b extends JDialog {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public Form02_b() {
+	/*Create the frame.*/
+	public Form02() {
 		setTitle("Banco Vigo");
 		setBounds(100, 100, 903, 588);
 		getContentPane().setLayout(new BorderLayout());
@@ -89,32 +88,47 @@ public class Form02_b extends JDialog {
 		{
 			JPanel panel = new JPanel();
 			panel.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panel.setBounds(10, 11, 867, 65);
+			panel.setBounds(10, 70, 867, 65);
 			contentPanel.add(panel);
 			panel.setLayout(null);
 
 			{
 
 				JLabel lblNewLabel = new JLabel("Seleccionar Cliente: ");
-				lblNewLabel.setBounds(10, 23, 196, 14);
+				lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+				lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+				lblNewLabel.setBounds(10, 23, 202, 23);
 				panel.add(lblNewLabel);
 
-				comboBoxClientes = new ModeloComboBoxClientes();
-				comboBoxClientes.addActionListener(new ActionListener() {
+				boxClientes = new ModeloComboBoxClientes();
+				
+				boxClientes.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cargarTabla();
+						
+						clientes = controller.cargarClientes();
+						cargarTabla(nombreCombo(clientes), apellidoCombo(clientes));
 					}
 				});
-				comboBoxClientes.setBounds(252, 14, 248, 32);
-				panel.add(comboBoxClientes);
+				boxClientes.setBounds(252, 14, 388, 32);
+				panel.add(boxClientes);
 			}
 
 		}
 
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 87, 867, 418);
+		scrollPane.setBounds(10, 146, 867, 359);
 		contentPanel.add(scrollPane);
-		cargarTabla();
+		{
+			JLabel lblNewLabel_1 = new JLabel("Listado de cuentas");
+			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+			lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 17));
+			lblNewLabel_1.setBounds(314, 21, 214, 19);
+			contentPanel.add(lblNewLabel_1);
+		}
+		
+		
+		clientes = controller.cargarClientes();
+		cargarTabla(nombreCombo(clientes), apellidoCombo(clientes));
 
 		{
 			JPanel buttonPane = new JPanel();
@@ -137,11 +151,14 @@ public class Form02_b extends JDialog {
 
 	}
 
-	public void cargarTabla() {
+	public void cargarTabla(String nombre, String apellidos) {
 		asignarColumnas();
 		inicializarRenderer();
 
+		ArrayList<ListadoCuentas> cuentas = controller.cargarCuentas(nombre, apellidos);
+		
 		table = new JTable(dm);
+		table.setForeground(Color.BLACK);
 		scrollPane.setViewportView(table);
 
 		table.getColumnModel().getColumn(0).setCellRenderer(alinearIzquierda);
@@ -149,18 +166,27 @@ public class Form02_b extends JDialog {
 		table.getColumnModel().getColumn(2).setCellRenderer(alinearDerecha);
 		table.getColumnModel().getColumn(3).setCellRenderer(alinearDerecha);
 
-		ArrayList<ListadoCuentas> cuentas = controller.cargarCuentas( );
 		
+
 		NumberFormat nf = NumberFormat.getCurrencyInstance(Locale.getDefault());
 
 		for (ListadoCuentas cuenta : cuentas) {
-			Object[] row = { cuenta.getCodCuenta(), cuenta.getCodSucursal(), cuenta.getCiudad(),
-					nf.format(cuenta.getActivo()) };
+			Object[] row = { cuenta.getCodCuenta(), cuenta.getCodSucursal(), cuenta.getCiudad(),nf.format(cuenta.getActivo()) };
 			dm.addRow(row);
 		}
 
 	}
 
+	public String nombreCombo(ArrayList<Cliente> cliente) {
+		String nombre = cliente.get( boxClientes.getSelectedIndex() ).getNombre();
+		return nombre;
+	}
+	
+	public String apellidoCombo(ArrayList<Cliente> cliente) {
+		String apellido = cliente.get( boxClientes.getSelectedIndex() ).getApellidos();
+		return apellido;
+	}
+	
 	public class BtnCancelActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {

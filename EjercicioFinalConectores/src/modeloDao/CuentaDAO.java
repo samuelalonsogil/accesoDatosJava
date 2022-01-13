@@ -15,10 +15,15 @@ import modeloVO.Sucursal;
 public class CuentaDAO {
 	
 	
-	public ArrayList<ListadoCuentas> cargarCuentas(){
+	public ArrayList<ListadoCuentas> cargarCuentas(String nombre, String apellido){
 		
 		MyConnection myConnection = new MyConnection();
-		String query = "SELECT cuCodCuenta, cuCodSucursal, suCiudad, cuSaldo FROM cuentas JOIN sucursales s on cuentas.cuCodSucursal = s.suCodSucursal";
+		String query = "SELECT cuCodCuenta, cuCodSucursal, suCiudad, cuSaldo\r\n"
+				+ "FROM Sucursales su\r\n"
+				+ "JOIN Cuentas cu on su.suCodSucursal = cu.cuCodSucursal\r\n"
+				+ "JOIN cuentasclientes ccl on cu.cuCodCuenta = ccl.ccCodCuenta\r\n"
+				+ "JOIN Clientes cl on ccl.ccDni = cl.clDni\r\n"
+				+ "WHERE cl.clNombre =\"" + nombre + "\" AND cl.clApellidos =\"" + apellido + "\"";
 		
 		ArrayList<ListadoCuentas> cuentas = new ArrayList<ListadoCuentas>();
 		
@@ -34,6 +39,8 @@ public class CuentaDAO {
 				listadoCuentas.setActivo(rs.getDouble("cuSaldo"));
 				cuentas.add(listadoCuentas);
 			}
+			
+			
 		}catch(SQLException sqle) {
 			sqle.printStackTrace();
 		}
