@@ -16,6 +16,12 @@ public class ListadoCuentas {
 		this.ciudad = ciudad;
 		this.activo = activo;
 	}
+	
+	public ListadoCuentas(int codCuenta, double activo) {
+		super();
+		this.codCuenta = codCuenta;
+		this.activo = activo;
+	}
 
 	public int getCodSucursal() {
 		return codSucursal;

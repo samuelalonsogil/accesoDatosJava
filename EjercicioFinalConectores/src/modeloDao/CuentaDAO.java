@@ -7,12 +7,39 @@ import java.util.ArrayList;
 import connection.MyConnection;
 import convertirFechasDate.ConvertirFechas;
 import modeloVO.Cliente;
+import modeloVO.ClienteTransaccion;
 import modeloVO.Cuenta;
 import modeloVO.CuentaCliente;
 import modeloVO.ListadoCuentas;
 import modeloVO.Sucursal;
 
 public class CuentaDAO {
+	
+	/*cargar cuentas en comboBox de transacciones*/
+	public ArrayList<ClienteTransaccion> cargarCuentasBox(String dni){
+		MyConnection myConnection = new MyConnection();
+		String query = "SELECT cuCodCuenta, cuSaldo\r\n"
+				+ "FROM Cuentas\r\n"
+				+ "JOIN sucursales on cuentas.cuCodSucursal = sucursales.suCodSucursal\r\n"
+				+ "JOIN cuentasclientes c on cuentas.cuCodCuenta = c.ccCodCuenta\r\n"
+				+ "WHERE ccDni = \"" + dni + "\"";
+		
+		ArrayList<ClienteTransaccion> cuentas = new ArrayList<>();
+		try {
+			PreparedStatement ps = myConnection.getConnection().prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			while( rs.next() ) {
+				ClienteTransaccion clienteTransaccion= new ClienteTransaccion();
+				clienteTransaccion.setCodCuenta( rs.getInt( "cuCodCuenta" ) );
+				clienteTransaccion.setActivos( rs.getDouble( "cuSaldo" ) );
+				cuentas.add(clienteTransaccion);
+			}
+		} catch (Exception e) {
+		}
+		myConnection.disconnect();
+		return cuentas;
+	}
 	
 	/*cargar cuentas en tabla*/
 	public ArrayList<ListadoCuentas> cargarCuentas(String nombre, String apellido){
@@ -50,6 +77,7 @@ public class CuentaDAO {
 		return cuentas;
 	}
 	
+	/*cargar comboBox clientes*/
 	/*cargar clientes en comboBox*/
 	public ArrayList<Cliente> cargarClientes(){
 		
@@ -80,6 +108,8 @@ public class CuentaDAO {
 	}
 	
 	/*cargar sucursales en comboBox*/
+	
+	/*cargar comboBox sucursales*/
 	public ArrayList<Sucursal> cargarSucursales(){
 			
 			MyConnection myConnection = new MyConnection();
@@ -107,6 +137,8 @@ public class CuentaDAO {
 	}
 	
 	/*nueva cuenta*/
+	
+	/*insertar nueva cuenta*/
 	public int nuevaCuenta(Cuenta cuenta, Cliente cliente) {
 		
 		MyConnection myConnection = new MyConnection();
@@ -152,6 +184,8 @@ public class CuentaDAO {
 	}
 	
 	/*transformar codigo de sucursal en nombre de ciudad*/
+	
+	/*transformar codigo de sucursal en nombre de ciudad*/
 	public String codigoCiudad(int code) {
 		String ciudad;
 		
@@ -171,6 +205,8 @@ public class CuentaDAO {
 			ciudad = "Nigrán";
 			return ciudad;
 	}
+	
+	/*modificar cuenta*/
 	
 	/*modificar cuenta*/
 	public int actualizar(Cuenta cuenta, Cliente cliente) {
@@ -218,6 +254,8 @@ public class CuentaDAO {
 		
 		return rows;
 	}
+	
+	/*eliminar cuenta*/
 	
 	/*eliminar cuenta*/
 	public int deleteAccount(Cuenta cuenta, Cliente cliente) {

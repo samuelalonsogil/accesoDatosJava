@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
 
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -16,6 +19,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import modelosViews.ModeloComboBoxClientes;
+import modelosViews.ModeloComboBoxCuentas;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 
@@ -58,9 +65,10 @@ public class Form03 extends JDialog {
 			lblNewLabel_1.setBounds(54, 11, 163, 22);
 			panel.add(lblNewLabel_1);
 			
-			JComboBox comboBoxClientes = new JComboBox();
-			comboBoxClientes.setBounds(227, 11, 310, 22);
-			panel.add(comboBoxClientes);
+			/*comboBox cuentas clientes*/
+			ModeloComboBoxCuentas boxCuentas = new ModeloComboBoxCuentas();
+			boxCuentas.setBounds(227, 11, 310, 22);
+			panel.add(boxCuentas);
 		}
 		
 		JLabel lblNewLabel = new JLabel("Listado de cuentas");

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import modeloDao.CuentaDAO;
 import modeloVO.Cliente;
+import modeloVO.ClienteTransaccion;
 import modeloVO.Cuenta;
 import modeloVO.CuentaCliente;
 import modeloVO.ListadoCuentas;
@@ -11,6 +12,10 @@ import modeloVO.Sucursal;
 
 public class Controller {
 	CuentaDAO cuentaDAO = new CuentaDAO();
+	
+	public ArrayList<ClienteTransaccion> cargarCuentasComboBox(String dni){
+		return cuentaDAO.cargarCuentasBox(dni);
+	}
 	
 	public ArrayList<Cliente> cargarClientes(){
 		return cuentaDAO.cargarClientes();
