@@ -14,7 +14,7 @@ import modeloVO.Sucursal;
 
 public class CuentaDAO {
 	
-	
+	/*cargar cuentas en tabla*/
 	public ArrayList<ListadoCuentas> cargarCuentas(String nombre, String apellido){
 		
 		MyConnection myConnection = new MyConnection();
@@ -50,6 +50,7 @@ public class CuentaDAO {
 		return cuentas;
 	}
 	
+	/*cargar clientes en comboBox*/
 	public ArrayList<Cliente> cargarClientes(){
 		
 		MyConnection myConnection = new MyConnection();
@@ -78,6 +79,7 @@ public class CuentaDAO {
 		return clientes;
 	}
 	
+	/*cargar sucursales en comboBox*/
 	public ArrayList<Sucursal> cargarSucursales(){
 			
 			MyConnection myConnection = new MyConnection();
@@ -104,7 +106,7 @@ public class CuentaDAO {
 		return sucursales;
 	}
 	
-	/*add new account*/
+	/*nueva cuenta*/
 	public int nuevaCuenta(Cuenta cuenta, Cliente cliente) {
 		
 		MyConnection myConnection = new MyConnection();
@@ -149,6 +151,7 @@ public class CuentaDAO {
 		return rows;
 	}
 	
+	/*transformar codigo de sucursal en nombre de ciudad*/
 	public String codigoCiudad(int code) {
 		String ciudad;
 		
@@ -169,7 +172,7 @@ public class CuentaDAO {
 			return ciudad;
 	}
 	
-	/*modify account*/
+	/*modificar cuenta*/
 	public int actualizar(Cuenta cuenta, Cliente cliente) {
 		MyConnection myConnection = new MyConnection();
 		
@@ -216,7 +219,7 @@ public class CuentaDAO {
 		return rows;
 	}
 	
-	/*delete account*/
+	/*eliminar cuenta*/
 	public int deleteAccount(Cuenta cuenta, Cliente cliente) {
 		MyConnection myConnection = new MyConnection();
 		
@@ -258,37 +261,6 @@ public class CuentaDAO {
 		return rows;
 	}
 	
-	/*public ArrayList<ListadoCuentas> cargarListadoCuentas(Cliente cliente){
-		
-		MyConnection myConnection = new MyConnection();
-		ListadoCuentas listado= new ListadoCuentas();
-		ArrayList<ListadoCuentas> listadoCuentas = new ArrayList<ListadoCuentas>();
-		
-		String query = "SELECT clNombre, clApellidos, cuCodCuenta, cuCodSucursal, suCiudad, cuSaldo\r\n"
-				+ "FROM Cuentas c\r\n"
-				+ "JOIN Sucursales s on c.cuCodSucursal = s.suCodSucursal\r\n"
-				+ "JOIN Cuentasclientes ccl on ccl.ccCodCuenta = c.cuCodCuenta\r\n"
-				+ "JOIN Clientes cl on cl.clDni = ccl.ccDni";
-		
-		try {
-			PreparedStatement ps = myConnection.getConnection().prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			
-			while( rs.next() ) {
-				listado.setCodCuenta(rs.getInt("cuCodCuenta"));
-				listado.setCodSucursal(rs.getInt("suCodSucursal"));
-				listado.setCiudad(rs.getString("suCiudad"));
-				listado.setActivo(rs.getDouble("suActivo"));
-				
-				listadoCuentas.add(listado);
-			}
-			
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		}
-		
-		myConnection.disconnect();
-		return listadoCuentas;
-	}*/
+	
 	
 }

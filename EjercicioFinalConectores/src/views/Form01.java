@@ -14,6 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import controller.Controller;
 import convertirFechasDate.ConvertirFechas;
+import logic.Logic;
 import modeloDao.CuentaDAO;
 import modeloVO.Cliente;
 import modeloVO.Cuenta;
@@ -22,6 +23,7 @@ import modeloVO.Sucursal;
 import modelosViews.ModeloComboBoxClientes;
 import modelosViews.ModeloComboBoxSucursales;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class Form01 extends JFrame {
@@ -32,7 +34,7 @@ public class Form01 extends JFrame {
 	private JTextField textFieldSaldo;
 	public ConvertirFechas conversor = new ConvertirFechas();
 	Form02 form02 = new Form02();
-	
+	Logic logic = new Logic();
 	/*Launch the application.*/
 	public static void main(String[] args) {
 		try {
@@ -132,12 +134,23 @@ public class Form01 extends JFrame {
 					cuentaCliente.setDni( clienteCombo.getDni() );
 					cuentaCliente.setCodCuenta( cuenta.getCodCuenta() );
 					
-					controller.newAccount(cuenta, clienteCombo);
 					
-					JOptionPane.showMessageDialog(null, "Inserción correcta");
+					
+					try {
+						if(logic.checkCuentas( cuenta.getCodCuenta() ) ) {
+							
+							controller.newAccount(cuenta, clienteCombo);
+							JOptionPane.showMessageDialog(null, "Inserción correcta");
+							
+						}else JOptionPane.showMessageDialog(null, "Cuenta existente");
+						
+					}catch (SQLException e1) {
+						e1.printStackTrace();
 					}
+				
 				}
-			});
+			}
+		});
 			
 			btnNew.setBounds(679, 18, 107, 23);
 			panel.add(btnNew);
@@ -166,7 +179,18 @@ public class Form01 extends JFrame {
 					cuentaCliente.setDni( clienteCombo.getDni() );
 					cuentaCliente.setCodCuenta( cuenta.getCodCuenta() );
 					
-					controller.modify(cuenta, clienteCombo);
+					try {
+						if( !logic.checkCuentas( cuenta.getCodCuenta() ) ) {
+							
+							controller.modify(cuenta, clienteCombo);
+							JOptionPane.showMessageDialog(null, "Modificación correcta" );
+							
+						}else JOptionPane.showMessageDialog(null, "Cuenta inexistente" );
+						
+					}catch (SQLException e1) {
+						e1.printStackTrace();
+					
+					}
 					
 					
 					}
@@ -194,7 +218,20 @@ public class Form01 extends JFrame {
 					cuenta.setCodCuenta( Integer.parseInt( textFieldNumeroCuenta.getText() ) );
 					cuenta.setCodSucursal(boxSucursales.getSelectedIndex() + 1 );
 					
-					controller.deleteAccount(cuenta, clienteCombo);
+					try {
+						if( !logic.checkCuentas( cuenta.getCodCuenta() ) ) {
+							
+							controller.deleteAccount(cuenta, clienteCombo);
+							JOptionPane.showMessageDialog(null, "Cuenta eliminada" );
+							
+						}else JOptionPane.showMessageDialog(null, "Cuenta inexistente" );
+						
+					}catch (SQLException e1) {
+						e1.printStackTrace();
+					
+					}
+					
+					
 					}
 				}
 			});

@@ -24,8 +24,8 @@ import javax.persistence.TemporalType;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "Personas", schema = "UD03Hibernate", indexes = { @Index (name = "nbIndice", columnList = "peApellidos", unique = true) } )
-@SequenceGenerator(name = "PersonaSeq", sequenceName = "id_Persona", initialValue = 1, allocationSize = 10)
-@TableGenerator(name = "PersonaTable", initialValue = 1, pkColumnName = "Entity", pkColumnValue = "ID", allocationSize = 10, table = "Entity Generator")
+//@SequenceGenerator(name = "PersonaSeq", sequenceName = "id_Persona", initialValue = 1, allocationSize = 10)
+//@TableGenerator(name = "PersonaTable", initialValue = 1, pkColumnName = "Entity", pkColumnValue = "ID", allocationSize = 10, table = "Entity Generator")
 public class Persona implements Serializable{
 	
 	@Id

@@ -24,10 +24,10 @@ public class Test01 {
 		
 		
 		//abrimos transaccion
-		entityManager.getTransaction().begin();
+		//entityManager.getTransaction().begin();
 		
 		//creamos el objeto persona
-		Persona persona = new Persona();
+		/*Persona persona = new Persona();
 		persona.setApellidos("Alonso");
 		persona.setEstado(Estado.Soltero);
 		persona.setFechaNacimiento(Calendar.getInstance());
@@ -35,7 +35,7 @@ public class Test01 {
 		persona.setSalario(2000.4);
 		
 		entityManager.persist(persona);
-		entityManager.getTransaction().commit();
+		entityManager.getTransaction().commit();*/
 		//cierra el em
 		
 		entityManager.close();

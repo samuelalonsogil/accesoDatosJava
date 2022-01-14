@@ -1,5 +1,10 @@
 package logic;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import connection.MyConnection;
+
 public class Logic {
 	
 	public boolean validarNulo(String text) {
@@ -17,5 +22,16 @@ public class Logic {
 			return false;
 	}
 
-
+	public boolean checkCuentas(int code) throws SQLException{
+		
+		MyConnection myConnection = new MyConnection();
+		String query = "SELECT cuCodCuenta FROM Cuentas WHERE cuCodCuenta = \"" + code + "\"";
+			
+			PreparedStatement ps = myConnection.getConnection().prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			if( rs.next() ) return false;
+			
+			else return true;
+	}
 }
