@@ -38,12 +38,11 @@ public class Form02 extends JDialog {
 	private ModeloComboBoxClientes boxClientes;
 
 	private DefaultTableModel dm;
-	private DefaultTableCellRenderer alinearCentro, alinearDerecha, alinearIzquierda;
+	private DefaultTableCellRenderer alignCenter, alignRight, alignLeft;
 	ArrayList<Cliente> clientes = new ArrayList<Cliente>();
-	
 	Controller controller = new Controller();
 
-	private void asignarColumnas() {
+	private void assingColumns() {
 		dm = new DefaultTableModel();
 		dm.addColumn("Num.Cta");
 		dm.addColumn("Num.Sucursal");
@@ -51,15 +50,15 @@ public class Form02 extends JDialog {
 		dm.addColumn("Saldo");
 	}
 
-	private void inicializarRenderer() {
-		alinearCentro = new DefaultTableCellRenderer();
-		alinearCentro.setHorizontalAlignment(SwingConstants.CENTER);
+	private void initializeRender() {
+		alignCenter = new DefaultTableCellRenderer();
+		alignCenter.setHorizontalAlignment(SwingConstants.CENTER);
 
-		alinearDerecha = new DefaultTableCellRenderer();
-		alinearDerecha.setHorizontalAlignment(SwingConstants.RIGHT);
+		alignRight = new DefaultTableCellRenderer();
+		alignRight.setHorizontalAlignment(SwingConstants.RIGHT);
 
-		alinearIzquierda = new DefaultTableCellRenderer();
-		alinearIzquierda.setHorizontalAlignment(SwingConstants.LEFT);
+		alignLeft = new DefaultTableCellRenderer();
+		alignLeft.setHorizontalAlignment(SwingConstants.LEFT);
 	}
 
 	/*Launch the application.*/
@@ -152,8 +151,8 @@ public class Form02 extends JDialog {
 	}
 
 	public void cargarTabla(String nombre, String apellidos) {
-		asignarColumnas();
-		inicializarRenderer();
+		assingColumns();
+		initializeRender();
 
 		ArrayList<ListadoCuentas> cuentas = controller.cargarCuentas(nombre, apellidos);
 		
@@ -161,10 +160,10 @@ public class Form02 extends JDialog {
 		table.setForeground(Color.BLACK);
 		scrollPane.setViewportView(table);
 
-		table.getColumnModel().getColumn(0).setCellRenderer(alinearIzquierda);
-		table.getColumnModel().getColumn(1).setCellRenderer(alinearCentro);
-		table.getColumnModel().getColumn(2).setCellRenderer(alinearDerecha);
-		table.getColumnModel().getColumn(3).setCellRenderer(alinearDerecha);
+		table.getColumnModel().getColumn(0).setCellRenderer(alignLeft);
+		table.getColumnModel().getColumn(1).setCellRenderer(alignCenter);
+		table.getColumnModel().getColumn(2).setCellRenderer(alignRight);
+		table.getColumnModel().getColumn(3).setCellRenderer(alignRight);
 
 		
 

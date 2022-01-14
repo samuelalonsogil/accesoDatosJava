@@ -18,6 +18,7 @@ public class ModeloComboBoxCuentas extends JComboBox<ClienteTransaccion>{
 	public ModeloComboBoxCuentas() {
 		super();
 		cargarComboBox();
+		
 	}
 	
 	
