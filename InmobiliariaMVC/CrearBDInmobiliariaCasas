@@ -1,0 +1,68 @@
+DROP DATABASE IF EXISTS UD02BDInmobiliariaCasas;
+CREATE DATABASE IF NOT EXISTS UD02BDInmobiliariaCasas;
+USE UD02BDInmobiliariaCasas;
+/*TABLA PROPIETARIOS*/
+
+CREATE TABLE IF NOT EXISTS  Propietarios(
+prDNI CHAR(9) PRIMARY KEY,
+prNombre VARCHAR(15),
+prApellidos VARCHAR(40),
+prDireccion VARCHAR(50),
+prCiudad VARCHAR(20),
+prCodPostal INT(5),
+prProvincia VARCHAR(20),
+prTelefono INT(9))ENGINE = InnoDB;
+
+/*TABLA ZONAS*/
+CREATE TABLE IF NOT EXISTS  Zonas(
+zoCodigo CHAR(5) PRIMARY KEY,
+zoNombre VARCHAR(30))ENGINE = InnoDB;
+
+/*TABLA INMUEBLES*/
+CREATE TABLE IF NOT EXISTS  Inmuebles(
+inCodigo CHAR(5) PRIMARY KEY,
+inDireccion VARCHAR(50),
+inCodZona CHAR(5),
+inEstado CHAR(1),
+inDNIPropietario CHAR(9),
+inSuperficie INT,
+inNumHabitaciones INT,
+inNumBanhos INT,
+inTerraza BOOLEAN,
+inJardin BOOLEAN,
+inPiscina BOOLEAN,
+inGaraje BOOLEAN,
+inPrecio INT,
+CONSTRAINT FKZona FOREIGN KEY (inCodZona) REFERENCES Zonas (zoCodigo),
+CONSTRAINT FKPropietario FOREIGN KEY (inDNIPropietario) REFERENCES Propietarios (prDNI))ENGINE = InnoDB;
+
+/*TABLA INQUILINOS*/
+CREATE TABLE IF NOT EXISTS  Inquilinos(
+inDNI CHAR(9) PRIMARY KEY,
+inNombre VARCHAR(50),
+inDireccion VARCHAR(50),
+inCiudad VARCHAR(20),
+inCodPostal INT(5),
+inTelefono CHAR(9),
+inSalario DOUBLE)ENGINE = InnoDB;
+
+/*TABLA CONTRATOS*/
+CREATE TABLE IF NOT EXISTS  Contratos(
+coCodigo CHAR(9) PRIMARY KEY,
+coDNIInquilino CHAR(9),
+coCodInmueble CHAR(5),
+coFechaContrato DATE,
+coFechaVencimiento DATE,
+coPrecio DOUBLE,
+CONSTRAINT FKInquilino FOREIGN KEY (coDNIInquilino) REFERENCES Inquilinos (inDNI),
+CONSTRAINT FKInmuebles FOREIGN KEY (coCodInmueble) REFERENCES Inmuebles (inCodigo))ENGINE = InnoDB;
+ 
+/*TABLA VENCIMIENTOSMES*/
+CREATE TABLE IF NOT EXISTS VencimientosMes(
+vmIdVencimiento INTEGER AUTO_INCREMENT PRIMARY KEY,
+vmDniPropietario CHAR(9),
+vmDNIInquilino CHAR(9),
+vmCodContrato CHAR(9),
+vmFechaContrato DATE,
+vmFechaVencimiento DATE,
+vmPrecio DOUBLE)Engine = InnoDB;

@@ -93,6 +93,7 @@ public class Listado extends JDialog {
 		SeleccionClienteLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		SeleccionClienteLabel.setBounds(40, 19, 143, 14);
 		panel.add(SeleccionClienteLabel);
+		
 		JComboBox comboClientes = new JComboBox();
 		comboClientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
