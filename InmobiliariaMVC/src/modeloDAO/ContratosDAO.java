@@ -8,8 +8,42 @@ import java.util.ArrayList;
 
 import connection.MyConnection;
 import modeloVO.Inquilinos;
+import modeloVO.ListaContratos;
 
 public class ContratosDAO {
+	
+	/*listar contratos*/
+	public ArrayList<ListaContratos> listarContratos(String codigoContrato) {
+		MyConnection myConnection = new MyConnection();
+		String query = "SELECT coCodigo, coDNIInquilino, inNombre, inquilinos.inDireccion, prDNI, prNombre, prApellidos, coFechaContrato, coFechaVencimiento, coPrecio\r\n"
+				+ "FROM ud02bdinmobiliariacasas.contratos JOIN Inquilinos ON inDni = coDNIInquilino\r\n"
+				+ "JOIN Inmuebles ON coCodInmueble = inCodigo\r\n"
+				+ "JOIN Propietarios ON prDni = inDniPropietario\r\n"
+				+ "WHERE coCodigo = (?)";
+		ArrayList<ListaContratos> listaContratos= new ArrayList<>();
+		
+		try {
+			PreparedStatement ps = myConnection.getConnection().prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			
+			while( rs.next() ) {
+				listaContratos.add( new ListaContratos( 
+						rs.getString("coCodigo"),
+						rs.getString("inNombre"),
+						rs.getString("inquilinos.inDireccion"),
+						rs.getString("prNombre"),
+						rs.getString("prApellidos"),
+						rs.getDate("coFechaContrato"),
+						rs.getDate("coFechaVencimiento"),
+						rs.getDouble("coPrecio")
+						 ));
+			}
+			
+		} catch (Exception e) {
+		}
+		
+		return null;
+	}
 	
 	/*cargar inquilinos*/
 	public ArrayList<Inquilinos> cargarInquilinos(){
@@ -49,7 +83,7 @@ public class ContratosDAO {
 		String query02 = "UPDATE Inmuebles SET inEstado = 1 WHERE inCodigo = (?)";
 		
 		int rows = 0;
-		System.out.println(code + dni + codInmueble + fechaContrato + fechaVencimiento + precio);
+		
 		try {
 			PreparedStatement ps01 = myConnection.getConnection().prepareStatement(query01);
 			PreparedStatement ps02 = myConnection.getConnection().prepareStatement(query02);

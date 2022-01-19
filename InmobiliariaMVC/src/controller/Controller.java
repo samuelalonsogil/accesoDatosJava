@@ -8,12 +8,17 @@ import modeloDAO.InmueblesDAO;
 import modeloDAO.ZonasDAO;
 import modeloVO.Inmuebles;
 import modeloVO.Inquilinos;
+import modeloVO.ListaContratos;
 import modeloVO.Zonas;
 
 public class Controller {
 	ContratosDAO contratosDAO = new ContratosDAO();
 	InmueblesDAO inmueblesDAO = new InmueblesDAO();
 	ZonasDAO zonasDAO = new ZonasDAO();
+	
+	public ArrayList<ListaContratos> getListaContratos(String codCuenta){
+		return contratosDAO.listarContratos(codCuenta);
+	}
 	
 	public boolean actualizarPrecioZonas(String porcentaje, String codeZona) {
 		return zonasDAO.actualizarPrecio(porcentaje, codeZona );

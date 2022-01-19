@@ -1,0 +1,126 @@
+DROP DATABASE IF EXISTS UD02BDSubastas;
+CREATE DATABASE IF NOT EXISTS UD02BDSubastas;
+USE UD02BDSubastas;
+
+CREATE TABLE IF NOT EXISTS Clientes(
+clUsuario VARCHAR(30) PRIMARY KEY,
+clPassWord VARCHAR(50) NOT NULL,
+clNombre VARCHAR(50) NOT NULL,
+clEmail  VARCHAR(50) NOT NULL) Engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS Lotes(
+loCodigo INT PRIMARY KEY,
+loPrecioSalida INT NOT NULL,
+loPujaMax INT NOT NULL,
+loTiempo TIME, 
+loAdjudicado BOOLEAN)Engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS Productos(
+prCodigo INT PRIMARY KEY,
+prNombre VARCHAR(30) NOT NULL, 
+prDescripcion BLOB NOT NULL,
+prLote INT NOT NULL,
+prCategoria VARCHAR(20),
+FOREIGN KEY (prLote) REFERENCES LOTES (loCodigo))Engine = innoDB;
+
+CREATE TABLE IF NOT EXISTS Pujas(
+puId INT AUTO_INCREMENT PRIMARY KEY,
+puLote INT NOT NULL,
+puUsuario VARCHAR(30) NOT NULL,
+puFechaHora TIMESTAMP NOT NULL,
+puCantidad INT NOT NULL,
+FOREIGN KEY (puLote) REFERENCES LOTES (loCodigo),
+FOREIGN KEY (puUsuario) REFERENCES Clientes (clUsuario))Engine = innoDB;
+
+
+INSERT INTO Clientes(clUsuario, clPassWord, clNombre, clEmail) VALUES
+('luisgarcia',  'luisgarcia','Luis Garcia Anton', 'luis@gmail.com'),
+('alvarorodriguez', 'alvarorodriguez','Alvaro Rodriguez', 'alvaro@gmail.com'),
+('jaimellorens', 'jaimellorens', 'Jaime Llorens', 'jaime@gmail.com'),
+('antoniocanales', 'antoniocanales', 'Antonio Canales', 'antonio@gmail.com'),
+('juansuarez', 'juansuarez', 'Juan Suarez', 'juan@gmail.com'),
+('julianlopez', 'julianlopez', 'Julian Lopez', 'julian@gmail.com'),
+('juliaantequera', 'juliaantequera', 'Julia Antequera', 'julia@gmail.com'),
+('albertojuanes', 'albertojuanes', 'Alberto Juanes', 'alberto@gmail.com'),
+('cristobalgarcia', 'cristobalgarcia', 'Cristobal Garcia', 'cristobal@gmail.com'),
+('mariasilva', 'mariasilva', 'Maria Silva', 'maria@gmail.com');
+
+INSERT INTO Lotes(loCodigo, loPrecioSalida, loPujaMax, loTiempo, loAdjudicado)
+ VALUES
+(1, 15000, 25000, '15:30:00', FALSE),
+(2, 23100, 23100, '12:25:00', FALSE),
+(3, 5500, 12200, '05:30:00', FALSE),
+(4, 1000, 5300, '07:14:00', FALSE),
+(5, 18200, 18200, '03:22:00', FALSE),
+(6, 35000, 36000, '01:44:00', FALSE),
+(7, 12100, 25000, '23:33:00', FALSE),
+(8, 9300, 17200, '05:30:00', FALSE),
+(9, 15230, 18900, '00:00:00', TRUE),
+(10, 15230, 23100, '00:00:00', TRUE),
+(11, 15230, 22350, '00:00:00', TRUE),
+(12, 15230, 15600, '00:00:00', TRUE),
+(13, 12200, 0, '23:00', FALSE),
+(14, 16320, 0, '2:00', FALSE);
+
+
+
+INSERT INTO Productos(prCodigo, prNombre, prDescripcion, prLote, prCategoria) VALUES 
+(1, 'Busto Joven', 'Juan Brull. Oleo sobre lienzo. Marco original de época', 1, 'Pintura'),
+(2, 'Paisaje costero', 'Jose Maria Martinez Lozano. Oleo sobre lienzo.', 2, 'Pintura'),
+(3, 'Broche', 'Broche modernista de diamantes, de principios del siglo XX.', 1, 'Joyas'),
+(4, 'Sortija', 'Sortija Belle Époque de diamantes, hacia 1910.', 2, 'Joyas'),
+(5, 'Lampara sobremesa', 'Lámpara de sobremesa alemana edición Doria Leuchten en metal lacado, hacia 1960- 1970.', 1, 'Antigüedades'),
+(6, 'Mesa salón', 'BERTIL FRIDHAGEN. Mesa en olmo y sobre en vidrio.', 3, 'Antigüedades'),
+(7, 'Cristalería', 'SIMON GATE. Juego de cristalería sueca de doce servicios en cristal grabado de Orrefors, de 1925.', 3, 'Antigüedades'),
+(8, 'Reloj', 'Vacheron Constantin, Lady Overseas.', 4, 'Relojes'), 
+(9, 'Relos Sra.', 'Tissot, reloj de pulsera de señora, hacia 1950.', 4, 'Relojes'),
+(10, 'Moneda española', 'Moneda española en oro.', 5, 'Numismática'), 
+(11, 'Porcelana oriental', ' "Santón", escultura china en porcelana, de la primera mitad del siglo XX.', 5, 'Oriental'),
+(12, 'Caja china', 'Baúl chino en piel lacada y dorada, del siglo XX.', 6, 'Oriental'),
+(13, 'Pintura contemporanea', 'BENGT LINDSTRÖM. Sin título.', 6, 'Pintura'), 
+(14, 'Coche', '2011 Audi A4 allroad Turismo, Diésel 143 cv, 5puertas, Manual 6marchas, Blanco', 7, 'Automoción'),
+(15, 'Coche', '2006 Audi Q7 5 PLAZAS, Diésel 232 cv, 5puertas, Manual 6marchas, Gris oscuro', 8, 'Automición'),
+(16, 'Busto relicario', 'Busto relicario. España, siglo XVI. Madera tallada, dorada y policromada. Ligeras faltas en la policromía.', 7, 'Escultura'),
+(17, 'Escultura', 'Escultura criselefantina, s.XIX. “Sancho Panza”. Bronce y marfil, con base de mármol.', 8, 'Escultura'), 
+(18, 'Talla del S. XIX', 'Talla del siglo XIX. “Búfalo”. Escultura en madera tallada. Medidas: 40 x 108 x 25 cm.', 9, 'Escultura'),
+(19, 'Bailarina', 'Escuela francesa de la segunda mitad del siglo XX. Después de EDGAR DEGAS (París, 1834 – 1917). “Pequeña bailarina de 14 años”.', 10, 'Escultura'),
+(20, 'Sancho Panza', 'Escuela francesa de la segunda mitad del siglo XX. Después de EDGAR DEGAS (París, 1834 – 1917). “Pequeña bailarina de 14 años”.', 11, 'Escultura'),
+(21, 'Dama goyesca', 'Escuela catalana, ca. 1900. “Dama goyesca”. Estuco policromado. Firmada en la base “J. Viñas” Medidas: 70 cm. (altura).', 12, 'Escultura'),
+(22, 'El gran duque de Alba', 'B.Vazquez según Tiziano, S.XVIII "El gran duque de Alba", Grabado 30 x 18 cm', 9, 'Grabado'),
+(23, 'Moises', 'B.Manteuil según Ph. de Champagne, Moises, Grabado 52 x 40 cm', 10, 'Grabado'),
+(24, 'Alfombra persa', 'Alfombra persa semiantigua, ca.1960-70. Tejida a mano en lana. Ca. 800.000 nudos/m2. Medidas: 220 x 155 cm.', 11, 'Alfombras'),
+(25, 'Máscara', 'Máscara del pueblo Dan; Costa de Marfil, finales del siglo XIX. Madera tallada, conchas de caurí, fibra vegetal.', 12, 'Arte africano'),
+(26, 'Reloj', 'Baume & Mercier - Clifton Club, juego completo - 10411 - Hombre - 2011 - actualidad', 13, 'Relojes'),
+(27, 'Reloj', 'Movado - Ermeto. NO RESERVE PRICE - 500995 - Unisex - 1901 - 1949', 14, 'Relojes'),
+(28,  'Instrumento', 'Un antiguo instrumento musical en maleta, decoración. - varios materiales', 13, 'Instrumento musical'),
+(29,  'Caja', 'Caja de válvula sólida alargada con escenas holandesas con hermoso interior - Cobre', 14, 'Antigüedades');
+
+
+
+INSERT INTO Pujas(puLote, puUsuario, puFechaHora, puCantidad) VALUES
+(1, 'luisgarcia', '2021-01-20 16:35:00',22000),
+(1, 'mariasilva', '2021-02-11 23:55' , 25000),
+(2, 'albertojuanes','2021-02-10 18:20', 23100),
+(3, 'cristobalgarcia', '2021-01-15 19:23', 8230),
+(3, 'albertojuanes', '2021-02-01 11:35', 9320),
+(3, 'mariasilva','2021-02-07 07:20' , 12200),
+(4, 'mariasilva', '2021-02-02 14:23', 5300),
+(5, 'antoniocanales', '2021-02-10 19:23', 18200),
+(6, 'antoniocanales', '2021-01-04 21:00', 35000),
+(6, 'juansuarez', '2021-01-05 12:10', 35500),
+(6, 'antoniocanales', '2021-02-10 15:14' , 36000),
+(7, 'juansuarez', '2021-01-14 16:10' ,25000),
+(7, 'luisgarcia', '2021-01-25 13:10', 21200),
+(8, 'juansuarez', '2021-02-08 14:10', 15100),
+(8, 'cristobalgarcia', '2021-02-10 03:15', 17200),
+(9, 'jaimellorens' , '2020-12-31 12:50', 16200),
+(9, 'juliaantequera', '2021-01-05 00:00', 18900), 
+(10, 'jaimellorens' , '2020-12-31 22:50', 16200),
+(10, 'alvarorodriguez', '2021-01-05 00:00', 23100),
+(11, 'jaimellorens' , '2020-12-31 12:50', 16200),
+(11, 'juliaantequera', '2021-01-05 00:00', 22350),
+(12, 'jaimellorens' , '2020-12-31 22:50', 15230),
+(12, 'alvarorodriguez', '2021-02-05 00:00', 15600);
+
+
+

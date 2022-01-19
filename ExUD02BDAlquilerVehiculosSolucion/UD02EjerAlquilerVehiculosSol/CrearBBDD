@@ -1,0 +1,55 @@
+DROP DATABASE IF EXISTS UD02BDAlquilerVehiculos;
+CREATE DATABASE IF NOT EXISTS UD02BDAlquilerVehiculos;
+USE UD02BDAlquilerVehiculos;
+
+CREATE TABLE IF NOT EXISTS OFICINAS(
+ofOficina INT AUTO_INCREMENT PRIMARY KEY,
+ofDireccion VARCHAR(50) NOT NULL,
+ofCiudad VARCHAR(20) NOT NULL,
+ofCodigoPostal INT (5) NOT NULL,
+ofProvincia VARCHAR(20) NOT NULL,
+ofTelefono INT(9) NOT NULL)Engine = InnoDB;
+
+CREATE TABLE IF NOT EXISTS CLIENTES(
+clDNI CHAR(9) PRIMARY KEY,
+clNombre VARCHAR(50) NOT NULL,
+clDireccion VARCHAR(50) NOT NULL,
+clCiudad VARCHAR(20) NOT NULL,
+clCodigoPostal INT (5) NOT NULL,
+clProvincia VARCHAR(20) NOT NULL,
+clTelefono INT(9) NOT NULL,
+clNumTarjeta CHAR(16))Engine = InnoDB;
+
+CREATE TABLE IF NOT EXISTS VEHICULOS(
+veMatricula CHAR(10) PRIMARY KEY,
+veMarca VARCHAR(20) NOT NULL,
+veModelo VARCHAR(20) NOT NULL,
+veGrupo ENUM('A', 'B', 'C', 'D', 'E', 'F', 'G') NOT NULL,
+vePlazas INT NOT NULL,
+vePuertas INT NOT NULL,
+veCapacidad INT NOT NULL,
+veEdadMinima INT NOT NULL,
+veFecCompra DATE NOT NULL,
+veCodOficina INT NOT NULL,
+veDisponible Boolean NOT NULL,
+vePrecio INT NOT NULL,
+FOREIGN KEY (veCodOficina) REFERENCES Oficinas (ofOficina))Engine = InnoDB;
+
+CREATE TABLE IF NOT EXISTS VEHICULOSCLIENTES(
+vcId INT AUTO_INCREMENT PRIMARY KEY,
+vcMatricula CHAR(10),
+vcDni CHAR(9) NOT NULL,
+vcFecInicio DATE NOT NULL,
+vcDias INT NOT NULL,
+vcSeguro VARCHAR(20) NOT NULL,
+FOREIGN KEY (vcMatricula) REFERENCES Vehiculos (veMatricula),
+FOREIGN KEY (vcDni) REFERENCES Clientes (clDni))Engine = InnoDB;
+
+CREATE TABLE IF NOT EXISTS FINALQUILER(
+faDniCliente CHAR(9) NOT NULL,
+faNombre VARCHAR(50) NOT NULL,
+faMatricula CHAR(10) NOT NULL,
+faFecInicio DATE NOT NULL,
+faDias INT NOT NULL,
+faFecFinal DATE NOT NULL);
+
