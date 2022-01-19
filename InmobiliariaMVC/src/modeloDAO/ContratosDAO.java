@@ -11,11 +11,11 @@ import modeloVO.Inquilinos;
 
 public class ContratosDAO {
 	
-	/*cargar comboBox inquilinos*/
-	public ArrayList<Inquilinos> cargarComboBoxInquilinos(){
+	/*cargar inquilinos*/
+	public ArrayList<Inquilinos> cargarInquilinos(){
 		MyConnection myConnection = new MyConnection();
 		
-		String query = "SELECT inNombre, inDNI FROM Inquilinos";
+		String query = "SELECT * FROM Inquilinos";
 		ArrayList<Inquilinos> inquilinos = new ArrayList<>();
 		
 		try {
@@ -24,8 +24,14 @@ public class ContratosDAO {
 			
 			while( rs.next() ) {
 				inquilinos.add( new Inquilinos ( 
+						rs.getString("inDNI"),
 						rs.getString("inNombre"),
-						rs.getString("inDNI")) );
+						rs.getString("inDireccion"),
+						rs.getString("inCiudad"),
+						rs.getInt("inCodPostal"),
+						rs.getInt("inTelefono"),
+						rs.getDouble("inSalario")
+						 ));
 			}
 			
 		} catch (Exception e) {
@@ -40,10 +46,10 @@ public class ContratosDAO {
 		MyConnection myConnection = new MyConnection();
 		
 		String query01 = "INSERT INTO Contratos VALUES (?, ?, ?, ?, ?, ?)";
-		String query02 = "UPDATE Inmuebles SET Estado = 1 WHERE inCodigo = (?)";
+		String query02 = "UPDATE Inmuebles SET inEstado = 1 WHERE inCodigo = (?)";
 		
 		int rows = 0;
-		
+		System.out.println(code + dni + codInmueble + fechaContrato + fechaVencimiento + precio);
 		try {
 			PreparedStatement ps01 = myConnection.getConnection().prepareStatement(query01);
 			PreparedStatement ps02 = myConnection.getConnection().prepareStatement(query02);

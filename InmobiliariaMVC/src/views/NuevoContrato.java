@@ -113,12 +113,12 @@ public class NuevoContrato extends JDialog {
 			
 			comboBoxInquilinos = new JComboBox();
 			comboBoxInquilinos.setBounds(95, 62, 280, 22);
-			comboBoxInquilinos.setModel(new DefaultComboBoxModel(getDniInquilinos().toArray()));
+			comboBoxInquilinos.setModel(new DefaultComboBoxModel(getNombreInquilinos().toArray()));
 			panel.add(comboBoxInquilinos);
 			
 			comboBoxDireccion = new JComboBox();
 			comboBoxDireccion.setBounds(95, 100, 280, 22);
-			comboBoxDireccion.setModel(new DefaultComboBoxModel(getNombreDirecciones().toArray()));
+			comboBoxDireccion.setModel(new DefaultComboBoxModel(getDirecciones().toArray()));
 			panel.add(comboBoxDireccion);
 			
 			textFieldFechContrato = new JTextField();
@@ -199,34 +199,34 @@ public class NuevoContrato extends JDialog {
 	
 	
 	
-	/*cargar el comboBox de direcciones*/
+	/*cargar el comboBox de inmuebles*/
 	public ArrayList<Inmuebles> getInmuebles(){
-		ArrayList<Inmuebles> inquilinos = controller.cargarBoxDirecciones();
+		ArrayList<Inmuebles> inquilinos = controller.cargarInmuebles();
 		return inquilinos;
 	}
 
 	public ArrayList<Inmuebles> inmuebles = getInmuebles();
 	
-	public ArrayList<String> getNombreDirecciones(){
+	public ArrayList<String> getDirecciones(){
 		ArrayList<String> direccionesNombre = new ArrayList<>();
 		for(Inmuebles i : inmuebles) {
-			direccionesNombre.add(i.getCodigo());
+			direccionesNombre.add(i.getDireccion());
 		}
 		return direccionesNombre;
 	}
 	
 	/*cargar el comboBox de nombre de inquilinos*/
 	public ArrayList<Inquilinos> getInquilinos(){
-		ArrayList<Inquilinos> inquilinos = controller.cargarBoxInquilinos();
+		ArrayList<Inquilinos> inquilinos = controller.cargarInquilinos();
 		return inquilinos;
 	}
 	
 	public ArrayList<Inquilinos> inquilinos = getInquilinos();
 	
-	public ArrayList<String> getDniInquilinos(){
+	public ArrayList<String> getNombreInquilinos(){
 		ArrayList<String> inquilinosNombre = new ArrayList<>();
 		for(Inquilinos i : inquilinos) {
-			inquilinosNombre.add(i.getDni());
+			inquilinosNombre.add(i.getNombre());
 		}
 		return inquilinosNombre;
 	}
