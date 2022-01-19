@@ -25,6 +25,12 @@ public class Inmuebles {
 	public Inmuebles() {
 		super();
 	}
+	
+	
+	public Inmuebles(String direccion) {
+		super();
+		this.direccion = direccion;
+	}
 	public String getCodigo() {
 		return codigo;
 	}

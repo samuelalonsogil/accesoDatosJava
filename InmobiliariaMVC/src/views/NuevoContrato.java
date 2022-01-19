@@ -11,12 +11,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controller.Controller;
+import modeloVO.Inmuebles;
 import modeloVO.Inquilinos;
 
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JTextField;
@@ -29,6 +32,8 @@ public class NuevoContrato extends JDialog {
 	private JTextField textFieldFechContrato;
 	private JTextField textFieldFechVencimiento;
 	private JTextField precioTextfield;
+	public JComboBox comboBoxInquilinos;
+	public JComboBox comboBoxDireccion;
 	
 	public Controller controller = new Controller();
 	
@@ -100,13 +105,14 @@ public class NuevoContrato extends JDialog {
 			precioLbl.setBounds(10, 211, 62, 27);
 			panel.add(precioLbl);
 			
-			JComboBox comboBoxInquilinos = new JComboBox();
+			comboBoxInquilinos = new JComboBox();
 			comboBoxInquilinos.setBounds(95, 62, 280, 22);
 			comboBoxInquilinos.setModel(new DefaultComboBoxModel(getNombreInquilinos().toArray()));
 			panel.add(comboBoxInquilinos);
 			
-			JComboBox comboBoxDireccion = new JComboBox();
+			comboBoxDireccion = new JComboBox();
 			comboBoxDireccion.setBounds(95, 100, 280, 22);
+			comboBoxDireccion.setModel(new DefaultComboBoxModel(getNombreDirecciones().toArray()));
 			panel.add(comboBoxDireccion);
 			
 			textFieldFechContrato = new JTextField();
@@ -131,7 +137,13 @@ public class NuevoContrato extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			{
 				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
+				okButton.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						controller.nuevoContrato(textField.getText(),comboBoxInquilinos.getSelectedIndex() , getName(), null, null, ABORT)
+					}
+				});
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -148,7 +160,26 @@ public class NuevoContrato extends JDialog {
 		lblTitle.setBounds(237, 11, 117, 27);
 		panelGeneral.add(lblTitle);
 	}
+	
+	
+	
+	/*cargar el comboBox de direcciones*/
+	public ArrayList<Inmuebles> getInmuebles(){
+		ArrayList<Inmuebles> inquilinos = controller.cargarBoxDirecciones();
+		return inquilinos;
+	}
 
+	public ArrayList<Inmuebles> inmuebles = getInmuebles();
+	
+	public ArrayList<String> getNombreDirecciones(){
+		ArrayList<String> direccionesNombre = new ArrayList<>();
+		for(Inmuebles i : inmuebles) {
+			direccionesNombre.add(i.getDireccion());
+		}
+		return direccionesNombre;
+	}
+	
+	/*cargar el comboBox de nombre de inquilinos*/
 	public ArrayList<Inquilinos> getInquilinos(){
 		ArrayList<Inquilinos> inquilinos = controller.cargarBoxInquilinos();
 		return inquilinos;
