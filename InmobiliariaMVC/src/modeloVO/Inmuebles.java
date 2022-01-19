@@ -31,6 +31,13 @@ public class Inmuebles {
 		super();
 		this.direccion = direccion;
 	}
+	
+	
+	public Inmuebles(String codigo, String direccion) {
+		super();
+		this.codigo = codigo;
+		this.direccion = direccion;
+	}
 	public String getCodigo() {
 		return codigo;
 	}

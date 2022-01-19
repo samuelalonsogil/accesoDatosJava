@@ -9,10 +9,11 @@ import modeloVO.Inmuebles;
 import modeloVO.Inquilinos;
 
 public class InmueblesDAO {
+	
 	public ArrayList<Inmuebles> cargarComboBoxDirecciones() {
 		MyConnection myConnection = new MyConnection();
 		
-		String query = "SELECT inDireccion FROM Inmuebles";
+		String query = "SELECT inDireccion, inCodigo FROM Inmuebles";
 		ArrayList<Inmuebles> inmuebles = new ArrayList<>();
 		
 		try {
@@ -21,7 +22,9 @@ public class InmueblesDAO {
 			
 			while( rs.next() ) {
 				inmuebles.add( new Inmuebles( 
-						rs.getString("inDireccion") ) );
+						rs.getString("inDireccion"),
+						rs.getString("inCodigo")) 
+						);
 				}
 			
 		} catch (Exception e) {

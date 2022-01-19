@@ -11,11 +11,11 @@ import modeloVO.Inquilinos;
 
 public class ContratosDAO {
 	
-	/*cargar comboBox direcciones inquilinos*/
+	/*cargar comboBox inquilinos*/
 	public ArrayList<Inquilinos> cargarComboBoxInquilinos(){
 		MyConnection myConnection = new MyConnection();
 		
-		String query = "SELECT inNombre FROM Inquilinos";
+		String query = "SELECT inNombre, inDNI FROM Inquilinos";
 		ArrayList<Inquilinos> inquilinos = new ArrayList<>();
 		
 		try {
@@ -24,7 +24,8 @@ public class ContratosDAO {
 			
 			while( rs.next() ) {
 				inquilinos.add( new Inquilinos ( 
-						rs.getString("inNombre") ) );
+						rs.getString("inNombre"),
+						rs.getString("inDNI")) );
 			}
 			
 		} catch (Exception e) {
@@ -35,7 +36,7 @@ public class ContratosDAO {
 	}
 	
 	/*insertar nuevo contrato*/
-	public int nuevoContrato(String code, String inquilino,String direccion, Date fechaContrato, Date fechaVencimiento, double precio) {
+	public int nuevoContrato(String code,String dni ,String codInmueble, Date fechaContrato, Date fechaVencimiento, double precio) {
 		MyConnection myConnection = new MyConnection();
 		
 		String query01 = "INSERT INTO Contratos VALUES (?, ?, ?, ?, ?, ?)";
@@ -50,14 +51,14 @@ public class ContratosDAO {
 			myConnection.getConnection().setAutoCommit(false);
 			
 			ps01.setString(1, code);
-			ps01.setString(2, inquilino);
-			ps01.setString(3, direccion);
+			ps01.setString(2, dni);
+			ps01.setString(3, codInmueble);
 			ps01.setDate(4, (java.sql.Date) fechaContrato);
 			ps01.setDate(5,	(java.sql.Date) fechaVencimiento);
 			ps01.setDouble(6, precio);
-			
+			System.out.println(ps01);
 			rows = ps01.executeUpdate();
-			
+			System.out.println(ps01);
 			ps02.setString(1, code);
 			
 			rows = ps02.executeUpdate();

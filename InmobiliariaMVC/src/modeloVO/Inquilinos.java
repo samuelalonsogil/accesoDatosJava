@@ -19,6 +19,13 @@ public class Inquilinos {
 		super();
 	}
 	
+	
+	
+	public Inquilinos(String dni, String nombre) {
+		super();
+		this.dni = dni;
+		this.nombre = nombre;
+	}
 	public Inquilinos(String nombre) {
 		super();
 		this.nombre = nombre;

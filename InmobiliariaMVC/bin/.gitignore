@@ -1,4 +1,7 @@
+/connection/
+/controller/
 /modeloDAO/
 /modeloVO/
-/controller/
 /views/
+/convertirFechasDate/
+/logic/

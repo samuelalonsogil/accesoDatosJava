@@ -11,16 +11,21 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controller.Controller;
+import convertirFechasDate.ConvertirFechas;
+import logic.Logic;
 import modeloVO.Inmuebles;
 import modeloVO.Inquilinos;
 
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -35,6 +40,7 @@ public class NuevoContrato extends JDialog {
 	public JComboBox comboBoxInquilinos;
 	public JComboBox comboBoxDireccion;
 	
+	public Logic logic = new Logic();
 	public Controller controller = new Controller();
 	
 	/*Launch the application.*/
@@ -107,7 +113,7 @@ public class NuevoContrato extends JDialog {
 			
 			comboBoxInquilinos = new JComboBox();
 			comboBoxInquilinos.setBounds(95, 62, 280, 22);
-			comboBoxInquilinos.setModel(new DefaultComboBoxModel(getNombreInquilinos().toArray()));
+			comboBoxInquilinos.setModel(new DefaultComboBoxModel(getDniInquilinos().toArray()));
 			panel.add(comboBoxInquilinos);
 			
 			comboBoxDireccion = new JComboBox();
@@ -139,9 +145,39 @@ public class NuevoContrato extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					
+					/*insertar nueva cuenta con el botón OK*/
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						controller.nuevoContrato(textField.getText(),comboBoxInquilinos.getSelectedIndex() , getName(), null, null, ABORT)
+						String dniInquilino = inquilinos.get(comboBoxInquilinos.getSelectedIndex()).getDni();
+						String codInmueble= inmuebles.get(comboBoxDireccion.getSelectedIndex()).getCodigo();
+						
+						if(textField.getText().isEmpty() || precioTextfield.getText().isEmpty() || textFieldFechContrato.getText().isEmpty() ||
+							textFieldFechVencimiento.getText().isEmpty()) {
+							
+							JOptionPane.showMessageDialog(null, "Completa todos los campos");
+							
+						}else {
+							
+							try {
+								if(logic.checkCuentas(textField.getText() ) ) {
+									controller.nuevoContrato(
+										textField.getText(),
+										dniInquilino,
+										codInmueble, 
+										ConvertirFechas.convertirJavaDateASqlDate(ConvertirFechas.convertirStringDate(textFieldFechContrato.getText())),
+										ConvertirFechas.convertirJavaDateASqlDate(ConvertirFechas.convertirStringDate(textFieldFechVencimiento.getText())),
+										Double.parseDouble(precioTextfield.getText()));
+										
+										JOptionPane.showMessageDialog(null, "Contrato insertado");
+									}else {
+										JOptionPane.showMessageDialog(null, "Contrato existente");
+									}
+							} catch (NumberFormatException e1) {
+								e1.printStackTrace();
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+					}
 					}
 				});
 				buttonPane.add(okButton);
@@ -174,7 +210,7 @@ public class NuevoContrato extends JDialog {
 	public ArrayList<String> getNombreDirecciones(){
 		ArrayList<String> direccionesNombre = new ArrayList<>();
 		for(Inmuebles i : inmuebles) {
-			direccionesNombre.add(i.getDireccion());
+			direccionesNombre.add(i.getCodigo());
 		}
 		return direccionesNombre;
 	}
@@ -187,10 +223,10 @@ public class NuevoContrato extends JDialog {
 	
 	public ArrayList<Inquilinos> inquilinos = getInquilinos();
 	
-	public ArrayList<String> getNombreInquilinos(){
+	public ArrayList<String> getDniInquilinos(){
 		ArrayList<String> inquilinosNombre = new ArrayList<>();
 		for(Inquilinos i : inquilinos) {
-			inquilinosNombre.add(i.getNombre());
+			inquilinosNombre.add(i.getDni());
 		}
 		return inquilinosNombre;
 	}

@@ -21,7 +21,7 @@ public class Controller {
 		return inmueblesDAO.cargarComboBoxDirecciones();
 	}
 	
-	public int nuevoContrato(String code, String inquilino, String direccion, Date fechaContrato, Date fechaVencimiento, double precio) {
-		return contratosDAO.nuevoContrato(code, inquilino, direccion, fechaContrato, fechaVencimiento, precio);
+	public int nuevoContrato(String code, String dni ,String codInmueble, Date fechaContrato, Date fechaVencimiento, double precio) {
+		return contratosDAO.nuevoContrato(code,dni,codInmueble, fechaContrato, fechaVencimiento, precio);
 	}
 }
