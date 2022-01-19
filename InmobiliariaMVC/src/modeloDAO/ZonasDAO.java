@@ -47,7 +47,6 @@ public class ZonasDAO {
 			cs = myConnection.getConnection().prepareCall(query);
 			cs.setFloat(2,  ( (Float.parseFloat(porcentaje) ) /100 ) +1  ) ;
 			cs.setString(1, codeZona);
-			System.out.println(cs);
 			sw = cs.execute();		
 			
 		}catch(SQLException e) {

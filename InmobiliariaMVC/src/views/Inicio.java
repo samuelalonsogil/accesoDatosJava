@@ -9,13 +9,18 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class Inicio extends JDialog {
 
 	private final JPanel panelGeneral = new JPanel();
-
+	NuevoContrato nuevoContrato = new NuevoContrato();
+	ActualizarPrecios actualizarPrecios = new ActualizarPrecios();
+	
 	/*Launch the application.*/
 	public static void main(String[] args) {
 		try {
@@ -38,6 +43,14 @@ public class Inicio extends JDialog {
 		{
 			JButton newContract = new JButton("Nuevo Contrato");
 			newContract.setBounds(10, 104, 155, 33);
+			newContract.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					nuevoContrato.setVisible(true);
+					
+				}
+			});
 			panelGeneral.add(newContract);
 		}
 		{
@@ -48,6 +61,14 @@ public class Inicio extends JDialog {
 		
 		JButton update = new JButton("Actualizar precios");
 		update.setBounds(10, 184, 155, 33);
+		update.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				actualizarPrecios.setVisible(true);
+				
+			}
+		});
 		panelGeneral.add(update);
 		
 		JButton alquileres = new JButton("Alquileres");
