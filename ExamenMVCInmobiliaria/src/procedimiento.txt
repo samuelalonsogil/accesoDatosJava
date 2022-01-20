@@ -1,0 +1,8 @@
+DELIMITER $
+DROP PROCEDURE prSamuelAlonso;
+CREATE PROCEDURE prSamuelAlonso (codeZona char(5), incremento float)
+BEGIN
+    UPDATE Inmuebles SET inPrecio = inPrecio * incremento WHERE inCodZona = codeZona;
+
+END $
+DELIMITER ;

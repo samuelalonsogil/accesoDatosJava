@@ -148,6 +148,7 @@ public class ConsultasContratos extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				ArrayList<ListaContratos> lista = controller.getListaContratos(textFieldCode.getText());
 				lista.forEach(c->{ 
+					textFieldCode.setText(c.getCodigoCuenta());
 					textFieldInquilinoNombre.setText(c.getNombreInquilino());
 					textFieldDireccion.setText(c.getDireccion());
 					textFieldPropietarioNombre.setText(c.getNombrePropietario() );
