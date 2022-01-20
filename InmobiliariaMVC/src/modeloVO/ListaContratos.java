@@ -8,12 +8,12 @@ public class ListaContratos {
 	double precio;
 	
 	public ListaContratos() {
-		super();
+		
 	}
 
 	public ListaContratos(String codigoCuenta, String nombreInquilino, String direccion, String nombrePropietario,
 			String apellidosNombre, Date fechaContrato, Date fechaVencimiento, double precio) {
-		super();
+		
 		this.codigoCuenta = codigoCuenta;
 		this.nombreInquilino = nombreInquilino;
 		this.direccion = direccion;

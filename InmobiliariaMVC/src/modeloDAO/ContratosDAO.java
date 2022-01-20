@@ -24,6 +24,7 @@ public class ContratosDAO {
 		
 		try {
 			PreparedStatement ps = myConnection.getConnection().prepareStatement(query);
+			ps.setString(1, codigoContrato);
 			ResultSet rs = ps.executeQuery();
 			
 			while( rs.next() ) {
@@ -35,14 +36,13 @@ public class ContratosDAO {
 						rs.getString("prApellidos"),
 						rs.getDate("coFechaContrato"),
 						rs.getDate("coFechaVencimiento"),
-						rs.getDouble("coPrecio")
-						 ));
+						rs.getDouble("coPrecio")));
 			}
 			
 		} catch (Exception e) {
 		}
 		
-		return null;
+		return listaContratos;
 	}
 	
 	/*cargar inquilinos*/

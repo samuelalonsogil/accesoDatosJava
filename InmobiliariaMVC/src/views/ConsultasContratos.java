@@ -10,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import controller.Controller;
+import convertirFechasDate.ConvertirFechas;
 import modeloVO.ListaContratos;
 
 import java.awt.Color;
@@ -141,6 +142,23 @@ public class ConsultasContratos extends JDialog {
 		textFieldCode.setBounds(142, 61, 132, 20);
 		generalPanel.add(textFieldCode);
 		textFieldCode.setColumns(10);
+		textFieldCode.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ArrayList<ListaContratos> lista = controller.getListaContratos(textFieldCode.getText());
+				lista.forEach(c->{ 
+					textFieldInquilinoNombre.setText(c.getNombreInquilino());
+					textFieldDireccion.setText(c.getDireccion());
+					textFieldPropietarioNombre.setText(c.getNombrePropietario() );
+					textFieldPropietarioApellidos.setText(c.getApellidosNombre() );
+					textFieldFechaContrato.setText(ConvertirFechas.convertirDateString(c.getFechaContrato() ));
+					textFieldFechaVencimiento.setText(ConvertirFechas.convertirDateString(c.getFechaVencimiento() ));
+					textFieldPrecio.setText( String.valueOf(c.getPrecio() ));
+					
+				});
+			}
+		});
 		
 		JLabel lblConsultaContratos = new JLabel("Consultas Contratos");
 		lblConsultaContratos.setHorizontalAlignment(SwingConstants.CENTER);
@@ -184,20 +202,10 @@ public class ConsultasContratos extends JDialog {
 			}
 		}
 	}
-	public ArrayList<ListaContratos> getListadoContratos(){
-		ArrayList<ListaContratos> listaContratos = controller.getListaContratos(textFieldCode.getText());
-		return listaContratos;
-	}
 	
-	public ArrayList<ListaContratos> listadoContratos = getListadoContratos();
-	
-	public ArrayList<String> getListadoContratosParams(){
-		ArrayList<String> listaContratos = new ArrayList<>();
-		for(ListaContratos l : listadoContratos) {
-			listaContratos.add(l.getCodigoCuenta() );
-		}
-		return listaContratos;
-	}
 	
 	
 }
+	
+	
+
